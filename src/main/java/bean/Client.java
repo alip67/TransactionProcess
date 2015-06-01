@@ -2,7 +2,6 @@ package bean;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import util.U;
 import util.XmlParserSAX;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,7 +12,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,17 +40,18 @@ public class Client extends Thread {
         xmlInput = new File("src\\main\\resources\\terminal" + this.getName() + ".xml");
 
         terminalList = XmlParserSAX.xmlParserTerminal(xmlInput);
-        for(Terminal terminal : terminalList){
+        for (Terminal terminal : terminalList) {
             terminalId = terminal.getTerminalId();
             terminalType = terminal.getTerminalType();
             serverIp = terminal.getServerIp();
             serverPort = terminal.getServerPort();
             outLogPath = terminal.getOutLogPath();
-            U.wl("HELLO"+ "    "+ terminal.toString());
+            System.out.println("    " + terminal.toString());
         }
         transactionList = XmlParserSAX.xmlParserTransaction(xmlInput);
-        for(Transaction transaction : transactionList)
-        U.wl( "  "+transaction.toString());
+        for (Transaction transaction : transactionList)
+            System.out.println("  " + transaction.toString());
+
         start();
     }
 
@@ -89,7 +92,7 @@ public class Client extends Thread {
                 }
 
                 Element transactionElement = doc.createElement("transaction");
-               // set attribute to transaction element
+                // set attribute to transaction element
                 transactionElement.setAttribute("id", responseTransaction.getId());
                 // Type element
                 transactionElement.setAttribute("type", responseTransaction.getType());
