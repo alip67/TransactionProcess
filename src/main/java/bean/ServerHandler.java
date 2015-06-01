@@ -21,10 +21,10 @@ public class ServerHandler extends Thread {
             ObjectOutputStream toClientInput = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream fromClientOutput = new ObjectInputStream(socket.getInputStream());
             Logger logger = Server.server.getLogger();
-            String clientTerminalId = fromClientOutput.readUTF();
+            String clientTerminalId = fromClientOutput.readLine();
 
             logger.info("Connected to " + clientTerminalId);
-            socket.setSoTimeout(1000);
+            socket.setSoTimeout(100);
 
             while (true) {
                 try {
@@ -32,7 +32,7 @@ public class ServerHandler extends Thread {
                     logger.info("Received: client Terminal " + clientTerminalId + " , " + receivedTransaction.toString());
                     receivedTransaction.setSuccess(false);
                     Deposit deposit = Server.server.getDepositById(receivedTransaction.getDepositId());
-                    if ("withdraw".equals(receivedTransaction.getType())&& deposit != null ) {
+                    if ("withdraw".equals(receivedTransaction.getType()) && deposit != null) {
                         synchronized (deposit) {
 
                             if (deposit.validateWithdrawOperation(receivedTransaction.getAmount())) {

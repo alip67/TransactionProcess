@@ -7,40 +7,50 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XmlParserSAX {
 
-        public static SaxHandler xmlParserSAX(InputStream xmlInput) {
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            SaxHandler handler;
-            handler = null;
-            try {
-                SAXParser saxParser = saxParserFactory.newSAXParser();
-                handler = new SaxHandler();
-                saxParser.parse(xmlInput, handler);
-                //Get Employees list
-                List<Terminal> terminalList = handler.getTerminalList();
-                List<Transaction> transactionList = handler.getTransactionList();
-                //print employee information
-                for (Terminal emp : terminalList)
-                    System.out.println(emp);
-                for (Transaction transaction : transactionList)
-                    System.out.println(transaction);
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return handler;
+    public static List<Terminal> xmlParserTerminal(File xmlInput) {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        List<Terminal> terminalList = new ArrayList<Terminal>();
+        try {
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            SaxHandler handler = new SaxHandler();
+            saxParser.parse(xmlInput, handler);
+            terminalList = handler.getTerminalList();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return terminalList;
+    }
 
+    public static List<Transaction> xmlParserTransaction(File xmlInput) {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        try {
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            SaxHandler handler = new SaxHandler();
+            saxParser.parse(xmlInput, handler);
 
+            transactionList = handler.getTransactionList();
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionList;
+    }
 
 
 }

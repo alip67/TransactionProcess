@@ -10,33 +10,33 @@ import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-/**
- * @author Maral Khojasteh
- */
 public class Server {
-    public static  Server server = new Server();
+
     private Map<String, Deposit> depositMap = new HashMap<String, Deposit>();
     private Logger logger;
     private ServerSocket serverSocket;
+    public static Server server = new Server();
 
     private Server() {
-        JsonToJava jsonToJava = new JsonToJava();
-        jsonToJava.getJsonData();
-        depositMap = jsonToJava.getDepositArrayList();
+        depositMap.putAll(JsonToJava.getInstance().getJsonData());
+        for (Map.Entry<String, Deposit> entry : depositMap.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().toString());
+        }
+
         try {
-            FileHandler fileHandler = new FileHandler("src\\main\\resources\\" + jsonToJava.getOutLog());
+            FileHandler fileHandler = new FileHandler("src\\main\\resources\\" + JsonToJava.getInstance().getOutLog());
             logger = Logger.getLogger("server");
             logger.addHandler(fileHandler);
-            serverSocket = new ServerSocket(jsonToJava.getPort());
+            serverSocket = new ServerSocket(JsonToJava.getInstance().getPort());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    Deposit getDepositById(String id) {
+    public Deposit getDepositById(String id) {
 
         if (depositMap.containsKey(id)) {
-            return depositMap.get(id);
+            return (Deposit) depositMap.get(id);
         } else
             return null;
     }
@@ -47,7 +47,7 @@ public class Server {
 
     public void run() {
         try {
-            serverSocket.setSoTimeout(10000000);
+            serverSocket.setSoTimeout(100000000);
             while (true) {
                 new ServerHandler(serverSocket.accept());
             }

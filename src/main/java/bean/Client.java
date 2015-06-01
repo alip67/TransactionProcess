@@ -2,6 +2,7 @@ package bean;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import util.U;
 import util.XmlParserSAX;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 
 public class Client extends Thread {
     private static int threadNumber = 0;
-    InputStream xmlInput;
+    File xmlInput;
     private String terminalId;
     private String terminalType;
     private String serverIp;
@@ -33,22 +34,21 @@ public class Client extends Thread {
     List<Terminal> terminalList = new ArrayList<Terminal>();
 
     public Client() {
-        super("" + threadNumber);
-        try {
-            xmlInput = new FileInputStream("src\\main\\resources\\terminal" + this.getName() + ".xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super("" + ++threadNumber);
+        xmlInput = new File("src\\main\\resources\\terminal" + this.getName() + ".xml");
 
-        terminalList = XmlParserSAX.xmlParserSAX(xmlInput).getTerminalList();
+        terminalList = XmlParserSAX.xmlParserTerminal(xmlInput);
         for(Terminal terminal : terminalList){
             terminalId = terminal.getTerminalId();
             terminalType = terminal.getTerminalType();
             serverIp = terminal.getServerIp();
             serverPort = terminal.getServerPort();
             outLogPath = terminal.getOutLogPath();
+            U.wl("HELLO"+ "    "+ terminal.toString());
         }
-        transactionList = XmlParserSAX.xmlParserSAX(xmlInput).getTransactionList();
+        transactionList = XmlParserSAX.xmlParserTransaction(xmlInput);
+        for(Transaction transaction : transactionList)
+        U.wl( "  "+transaction.toString());
         start();
     }
 
@@ -124,8 +124,6 @@ public class Client extends Thread {
         }
 
     }
-
-
 
     public static void main(String args[]) {
 

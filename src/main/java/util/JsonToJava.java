@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class JsonToJava {
 
-    private HashMap<String, Deposit> deposits;
+    public Map<String, Deposit> deposits;
     private int port;
     private String outLog;
     private static JsonToJava instance = null;
@@ -33,13 +33,13 @@ public class JsonToJava {
         return instance;
     }
 
-    public void getJsonData() {
+    public Map<String, Deposit> getJsonData() {
         String depositCustomer;
         String depositId;
         BigDecimal depositInitialBalance;
         BigDecimal depositUpperBound;
         try {
-            Map<String, Deposit> deposits = new HashMap<String, Deposit>();
+            deposits = new HashMap<String, Deposit>();
             FileReader fileReader = new FileReader("src\\main\\resources\\core.json");
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);
@@ -63,6 +63,7 @@ public class JsonToJava {
                         , depositInitialBalance
                         , depositUpperBound));
             }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -70,9 +71,8 @@ public class JsonToJava {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return deposits;
     }
-
-
 
     public int getPort() {
         return port;
@@ -81,10 +81,4 @@ public class JsonToJava {
     public String getOutLog() {
         return outLog;
     }
-
-    public HashMap<String, Deposit> getDepositArrayList() {
-        return deposits;
-    }
-
-
 }

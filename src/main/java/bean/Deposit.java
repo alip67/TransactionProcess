@@ -2,9 +2,6 @@ package bean;
 
 import java.math.BigDecimal;
 
-/**
- * @author Maral Khojasteh
- */
 public class Deposit {
     String customer;
     String id;
@@ -35,6 +32,11 @@ public class Deposit {
     BigDecimal withdraw(BigDecimal value) {
         initialBalance = initialBalance.subtract(value);
         return initialBalance;
+    }
+
+    @Override
+    public String toString() {
+        return "Deposit:: DepositId=" + this.id + " Customer=" + this.customer + " InitialBalance=" + this.initialBalance + " UpperBound=" + this.upperBound;
     }
 }
 

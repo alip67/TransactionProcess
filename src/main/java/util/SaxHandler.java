@@ -32,28 +32,19 @@ public class SaxHandler extends DefaultHandler {
         if ("terminal".equals(qName)) {
             terminal = new Terminal();
             terminal.setTerminalId(attributes.getValue("id"));
-            U.wl("" + terminal.getTerminalId());
             terminal.setTerminalType(attributes.getValue("type"));
-            U.wl("" + terminal.getTerminalType());
         } else if ("server".equals(qName)) {
             terminal.setServerIp(attributes.getValue("ip"));
-            U.wl("" + terminal.getServerIp());
             terminal.setServerPort(Integer.parseInt(attributes.getValue("port")));
-            U.wl("" + terminal.getServerPort());
         } else if ("outLog".equals(qName)) {
             terminal.setOutLogPath(attributes.getValue("path"));
-            U.wl("" + terminal.getOutLogPath());
             terminalList.add(terminal);
         } else if ("transaction".equals(qName)) {
             transaction = new Transaction();
             transaction.setId(attributes.getValue("id"));
-            U.wl("" + transaction.getId());
             transaction.setType(attributes.getValue("type"));
-            U.wl("" + transaction.getType());
             transaction.setAmount(new BigDecimal(attributes.getValue("amount")));
-            U.wl("" + transaction.getAmount());
             transaction.setDepositId(attributes.getValue("deposit"));
-            U.wl("" + transaction.getDepositId());
             transactionList.add(transaction);
         }
 

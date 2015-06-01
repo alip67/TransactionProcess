@@ -49,11 +49,11 @@ public class Terminal {
     }
 
 
-
     @Override
     public String toString() {
-        return "TERMINAL:: terminalID="+this.terminalId+" type=" + this.terminalType + " Server IP=" + this.serverIp + " Server Port=" + this.serverPort +
-                " OUTlogpath=" + this.outLogPath;}
+        return "TERMINAL:: terminalID=" + this.terminalId + " type=" + this.terminalType + " Server IP=" + this.serverIp + " Server Port=" + this.serverPort +
+                " OUTlogpath=" + this.outLogPath;
+    }
 
 }
 
