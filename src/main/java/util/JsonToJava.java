@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class JsonToJava {
 
@@ -21,7 +22,7 @@ public class JsonToJava {
     private String outLog;
     private static JsonToJava instance = null;
 
-    protected JsonToJava() {
+    public JsonToJava() {
 
     }
 
@@ -38,7 +39,7 @@ public class JsonToJava {
         BigDecimal depositInitialBalance;
         BigDecimal depositUpperBound;
         try {
-            deposits = new HashMap<String, Deposit>();
+            Map<String, Deposit> deposits = new HashMap<String, Deposit>();
             FileReader fileReader = new FileReader("src\\main\\resources\\core.json");
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);

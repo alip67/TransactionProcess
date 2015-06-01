@@ -18,11 +18,11 @@ public class Deposit {
         this.upperBound = upperBound;
     }
 
-    boolean validateDepositOperand(BigDecimal value) {
+    boolean validateDepositOperation(BigDecimal value) {
         return (initialBalance.add(value).compareTo(upperBound) <= 0);
     }
 
-    boolean validateWithdrawOperand(BigDecimal value) {
+    boolean validateWithdrawOperation(BigDecimal value) {
 
         return (initialBalance.subtract(value).compareTo(new BigDecimal(0)) >= 0);
     }
